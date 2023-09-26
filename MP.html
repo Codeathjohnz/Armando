@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Music Player with Playlist</title>
+    
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+        }
+        @font-face {
+            font-family: Spotnik;
+            src: url('SPOTNIK.woff') format('woff'), /* Modern Browsers */
+                 url('SPOTNIK.woff') format('woff'); /* Older Browsers */
+            /* Add additional font formats and sources if needed */
+        }
+
+        /* Container for the album image with fixed dimensions */
+        .album-image-container {
+            position: absolute;
+            left: 30%;
+            z-index: 1;
+            width: 40%;
+            height: 40%; /* You can adjust the height as needed */
+            margin: auto;
+            margin-top: 10%;
+        }
+
+        .album-image {
+            max-width: 100%;
+            max-height: 100%; /* Ensure the image stays within the container */
+            border-radius: 5px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+            object-fit: cover; /* Maintain the image's aspect ratio and cover the container */
+        }
+
+        .alan {
+            font-size: 12px;
+            color: #eee;
+            font-family: Spotnik;
+            font-weight: bold;
+            float: left;
+            clear: both;
+            padding-left: 10px;
+            text-shadow: 2px 2px 8px #4199ac;
+        }
+        .walker {
+            font-size: 8px;
+            color: #eee;
+            font-family: Spotnik;
+            font-weight: bold;
+            padding-left: 10px;
+            text-shadow: 2px 2px 8px #4199ac;
+        }
+
+        /* Customize the appearance of the audio player controls */
+        #audio {
+            width: 100%;
+            color: rgb(31, 4, 104);
+            border-top: 1px double #4199ac;
+            border-radius: 5px 5px 0px 0;
+            padding-top: 5px;
+        }
+
+        /* Customize the appearance of the play button */
+        #audio::-webkit-media-controls-play-button {
+            background-color: #4199ac; /* Change the play button background color */
+            color: white; /* Change the play button text color */
+            border: none;
+            border-radius: 50% 50% 0 50%; /* Make the play button circular */
+            width: 30px;
+            height: 30px;
+            font-size: 20px;
+        }
+
+        /* Customize the appearance of other audio player controls (e.g., volume, progress) */
+        #audio::-webkit-media-controls-current-time-display,
+        #audio::-webkit-media-controls-time-remaining-display {
+            color: #4199ac;
+        }
+        #audio::-webkit-media-controls-volume-slider {
+            background-color: #4199ac;
+        }
+        .section1 {
+            background: linear-gradient(to bottom, #010717, #4199ac, #010717);
+            clear: both;
+        }
+
+        /*Image Container*/
+        .diagonal-container {
+            max-width: 50%;
+            height: auto;
+            position: relative;
+            overflow: hidden;
+            float: left;
+            clear: both;
+        }
+
+        .diagonal-image {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            clip-path: polygon(0 0, 100% 0, 0% 100%);
+        }
+
+        /* Add your CSS styling for the player and playlist here */
+        /* Example styles for reference */
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #010717;
+        }
+
+        #music-player {
+            width: 300px;
+            margin: 0 auto;
+        }
+
+        #playlist {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        #playlist li {
+            cursor: pointer;
+            padding: 8px;
+            font-family: Spotnik;
+            color: #4199ac;
+            border-top: 1px double #4199ac;
+            border-left: 1px solid #4199ac;
+            width: 300px;
+            margin: 0 auto;
+            margin-top: 15px;
+        }
+
+        #playlist li:hover {
+            background-color: #eee;
+            color: #010717;
+        }
+
+        /* Dark button styles */
+        .control-button {
+            background: linear-gradient(to top right, #4199ac, #010717); /*#333*/
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            margin: 5px;
+            cursor: pointer;
+        }
+        .song-title {
+            color: #eee;
+            font-family: 'Courier New', Courier, monospace;
+        }
+
+       /* Add styles for the hamburger icon button */
+#togglePlaylistButton {
+    background: linear-gradient(to top right, #4199ac, #010717);
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    margin: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+/* Style the playlist container */
+#playlistContainer {
+    max-width: 350px; /* Adjust the width as needed */
+    max-height: 300px; /* Adjust the height as needed */
+    overflow-y: scroll; /* Add this to enable scrolling */
+    transition: max-height 0.5s ease-in-out;
+    margin: 0 auto;
+    border: 1px solid #4199ac;
+    margin-bottom: 20px;
+    
+}
+
+
+    </style>
+</head>
+<body>
+    <div class="section1">
+        <div class="diagonal-container">
+            <img src="https://i.discogs.com/He-5z2DMvkkAPVsgsuKtP-1NOxVo9WwfBwtZxJ-ozWM/rs:fit/g:sm/q:90/h:426/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9BLTQ4Mjc2/MjItMTY0MjY0MjIy/Mi0zMDM3LmpwZWc.jpeg" alt="Your Image" class="diagonal-image">
+            <p class="alan">ALAN WALKER</p>
+        </div>
+        <pre class="walker">Deathjohnz        Walker#70152</pre>
+        <div class="album-image-container"> <!-- Container for the album image -->
+            <img id="albumImage" src="https://i.ytimg.com/vi/1sESCIMpx0U/maxresdefault.jpg" alt="Album Image" class="album-image">
+        </div>
+        <div id="music-player">
+            <audio id="audio" controls autoplay></audio>
+             <!-- Song title element -->
+             <p class="song-title">Now Playing: </p>
+        </div>
+    </div>
+
+    <div class="section2">
+        <button class="control-button" id="prevButton">&#9664;</button>
+        <button class="control-button" id="togglePlaylistButton">&#9776;</button>
+        <button class="control-button" id="nextButton">&#9654;</button>
+        
+
+        <div id="playlistContainer">
+           
+                <ul id="playlist">
+                    <!-- Add songs here -->
+                    <li data-src="Alan Walker & UPSAHL - Shut Up.mp3" data-image="https://i.ytimg.com/vi/1sESCIMpx0U/maxresdefault.jpg">SHUT UP</li>
+                    <li data-src="Alan Walker x Emma Steinbakken - Not You (Live Performance).mp3" data-image="notyou.jpg">NOT YOU</li>
+                    <li data-src="Alan Walker,  K-391, Boy in Space - Paradise (Official Music Video).mp3" data-image="Paradise.jpg">PARADISE</li>
+                    <li data-src="Alan Walker - Tired (Lyrics) ft. Gavin James.mp3" data-image="Tired.jpg">TIRED</li>
+                    <li data-src="Alan x Walkers - Unity.mp3" data-image="Unity.jpg">UNITY</li>
+                    <li data-src="Alan Walker - The Spectre.mp3" data-image="walk.jpg">The Spectre</li>
+                    <!-- Add more songs as needed -->
+                </ul>
+            
+        </div>
+
+    </div>
+
+    <script>
+        // JavaScript for the music player
+const audio = document.getElementById('audio');
+const playlist = document.getElementById('playlist');
+const playlistContainer = document.getElementById('playlistContainer');
+const togglePlaylistButton = document.getElementById('togglePlaylistButton');
+const songs = playlist.querySelectorAll('li');
+const songTitle = document.querySelector('.song-title'); // Define the song title element
+const albumImage = document.getElementById('albumImage'); // Define the album image element
+
+let currentSongIndex = 0;
+let playlistVisible = false;
+
+// Function to play a song
+function playSong(index) {
+    const song = songs[index];
+    const songSrc = song.getAttribute('data-src');
+    const songImage = song.getAttribute('data-image');
+    audio.src = songSrc;
+    audio.play();
+    currentSongIndex = index;
+
+    // Update the song title and album image
+    songTitle.textContent = `Now Playing: ${song.textContent}`;
+    albumImage.src = songImage;
+}
+
+// Play the first song when the page loads
+playSong(currentSongIndex);
+
+// Add click event listeners to playlist items
+songs.forEach((song, index) => {
+    song.addEventListener('click', () => {
+        playSong(index);
+    });
+});
+
+// Event listener for when a song ends
+audio.addEventListener('ended', () => {
+    // Play the next song in the playlist
+    currentSongIndex = (currentSongIndex + 1) % songs.length;
+    playSong(currentSongIndex);
+});
+
+// Event listeners for previous and next buttons
+document.getElementById('prevButton').addEventListener('click', () => {
+    currentSongIndex = (currentSongIndex - 1 + songs.length) % songs.length;
+    playSong(currentSongIndex);
+});
+
+document.getElementById('nextButton').addEventListener('click', () => {
+    currentSongIndex = (currentSongIndex + 1) % songs.length;
+    playSong(currentSongIndex);
+});
+
+// Toggle playlist visibility when clicking the hamburger button
+togglePlaylistButton.addEventListener('click', () => {
+    if (playlistVisible) {
+        playlistContainer.style.maxHeight = '0';
+    } else {
+        playlistContainer.style.maxHeight = '150px'; // Adjust the max height as needed
+    }
+    playlistVisible = !playlistVisible;
+});
+
+    </script>
+</body>
+</html>
